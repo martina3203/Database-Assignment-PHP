@@ -5,6 +5,7 @@ $validInput = true;
 $name = "nope";
 $address = "nope";
 $creditLimit = "nope";
+$cardNumber = "nope";
 if (isset($_POST['name']))
 {
     $name = $_POST['name'];
@@ -23,6 +24,15 @@ if (isset($_POST['address']))
         echo "Invalid input in the Address Field. <br>";
     }
 }
+if (isset($_POST['cardnumber']))
+{
+    $cardNumber = $_POST['cardnumber'];
+    if (Empty($cardNumber) or !is_numeric($cardNumber))
+    {
+        $validInput = false;
+        echo "Invalid input in the Credit Card Number Field. <br>";
+    }
+}
 if (isset($_POST['creditLimit']))
 {
     $creditLimit = $_POST['creditLimit'];
@@ -33,7 +43,7 @@ if (isset($_POST['creditLimit']))
     }
 }
 if($validInput == true and $name != "nope") {
-    $sql = "INSERT INTO customers (`Name`, `Address`, `Credit Limit`) VALUES ('$name','$address',$creditLimit)";
+    $sql = "INSERT INTO customers (`Cred_Card_#`,`Name`, `Address`, `Credit Limit`) VALUES ($cardNumber,'$name','$address',$creditLimit)";
     if (mysqli_query($connection,$sql))
     {
        echo "Record added!";
@@ -47,10 +57,12 @@ if($validInput == true and $name != "nope") {
 Please fill in all of the fields to add a customer to the Database.
 <form name="query" method="post" action="addCustomer.php" enctype="multipart/form-data">
 <br>
-        <b>Enter Name: </b>
+        <b> Enter Name: </b>
         <input name="name" size="20" type="text"> <br>
-        <b>Enter Address: </b>
+        <b> Enter Address: </b>
         <input name="address" size="40" type="text"> <br>
+        <b> Enter Card Number: </b>
+        <input name="cardnumber" size="8" type="number"> <br>
         <b>Enter Credit Limit: </b>
         <input name="creditLimit" size ="8" type="number"> <br>
         <input name="upload" value="Submit" type="submit">
